@@ -27,3 +27,4 @@ board-$(CONFIG_MACH_RK3188_DS1006H) += board-rk3188-ds1006h.o
 obj-$(CONFIG_SOC_RK3188) += board.o
 board-$(CONFIG_MACH_RK3188_FAC) += board-rk3188-fac.o
 board-$(CONFIG_MACH_RK3188_RADXA_ROCK) += radxa-rock.o
+board-$(CONFIG_MACH_RK3188_UG007B) += board-rk3188-ug007b.o

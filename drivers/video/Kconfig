@@ -25,6 +25,10 @@ source "drivers/gpu/stub/Kconfig"
 
 source "drivers/gpu/ion/Kconfig"
 
+source "drivers/gpu/mali/Kconfig"
+
+source "drivers/gpu/hx170_dec/Kconfig"
+
 config VGASTATE
        tristate
        default n

@@ -12,9 +12,16 @@ config SOC_RK3188M
 
 endchoice
 
+config IAM_CHANGES
+	bool
+
 choice
 	prompt "RK3188 Board Type"
 	depends on SOC_RK3188
+
+config MACH_RK3188_UG007B
+	select IAM_CHANGES
+	bool "RK3188 UG007B board"
 
 config MACH_RK3188_RADXA_ROCK
 	bool "RK3188 Radxa Rock board"

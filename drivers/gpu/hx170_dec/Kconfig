@@ -1,0 +1,5 @@
+menuconfig HX170_DEC
+	tristate "HX170 Video decoder"
+	default n
+	help
+	  HX170 Video decoder.
