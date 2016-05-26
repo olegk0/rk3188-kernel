@@ -62,14 +62,6 @@ s32 _sdio_write32(PADAPTER padapter, u32 addr, u32 val);
 extern void sd_int_hdl(PADAPTER padapter);
 extern u8 CheckIPSStatus(PADAPTER padapter);
 
-#ifdef CONFIG_RTL8723A
-extern void InitInterrupt8723ASdio(PADAPTER padapter);
-extern void InitSysInterrupt8723ASdio(PADAPTER padapter);
-extern void EnableInterrupt8723ASdio(PADAPTER padapter);
-extern void DisableInterrupt8723ASdio(PADAPTER padapter);
-extern u8 HalQueryTxBufferStatus8723ASdio(PADAPTER padapter);
-#endif // CONFIG_RTL8723A
-
 #ifdef CONFIG_RTL8188E
 extern void InitInterrupt8188ESdio(PADAPTER padapter);
 extern void EnableInterrupt8188ESdio(PADAPTER padapter);
@@ -103,6 +95,19 @@ extern void DisableInterruptButCpwm28723BSdio(PADAPTER padapter);
 extern void ClearInterrupt8723BSdio(PADAPTER padapter);
 #endif //CONFIG_WOWLAN
 #endif
+
+
+#ifdef CONFIG_RTL8192E
+extern void InitInterrupt8192ESdio(PADAPTER padapter);
+extern void EnableInterrupt8192ESdio(PADAPTER padapter);
+extern void DisableInterrupt8192ESdio(PADAPTER padapter);
+extern void UpdateInterruptMask8192ESdio(PADAPTER padapter, u32 AddMSR, u32 RemoveMSR);
+extern u8 HalQueryTxBufferStatus8192ESdio(PADAPTER padapter);
+extern u8 HalQueryTxOQTBufferStatus8192ESdio(PADAPTER padapter);
+extern void ClearInterrupt8192ESdio(PADAPTER padapter);
+#endif // CONFIG_RTL8192E
+
+
 
 #endif // !__SDIO_OPS_H__
 
