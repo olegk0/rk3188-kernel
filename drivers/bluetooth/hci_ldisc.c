@@ -561,6 +561,7 @@ static unsigned int hci_uart_tty_poll(struct tty_struct *tty,
 
 static int __init hci_uart_init(void)
 {
+	printk("hci> %s (%s)\n",__func__,__FILE__);
 	static struct tty_ldisc_ops hci_uart_ldisc;
 	int err;
 
@@ -599,9 +600,14 @@ static int __init hci_uart_init(void)
 	ll_init();
 #endif
 #ifdef CONFIG_BT_HCIUART_ATH3K
-	ath_init();
+       ath_init();
 #endif
-
+//Realtek_add_start	
+//add realtek h5 support	
+#ifdef CONFIG_BT_HCIUART_RTKH5
+	h5_init();
+#endif
+//Realtek_add_end	
 	return 0;
 }
 
@@ -620,6 +626,10 @@ static void __exit hci_uart_exit(void)
 #endif
 #ifdef CONFIG_BT_HCIUART_ATH3K
 	ath_deinit();
+#endif
+
+#ifdef CONFIG_BT_HCIUART_RTKH5
+	h5_deinit();
 #endif
 
 	/* Release tty registration of line discipline */
