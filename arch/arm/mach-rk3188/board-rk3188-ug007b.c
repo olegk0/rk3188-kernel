@@ -50,6 +50,14 @@
 #include <linux/regulator/rk29-pwm-regulator.h>
 #include <plat/ddr.h>
 
+#ifdef CONFIG_IAM_CHANGES
+//    #define MMEDIA_BUF_SIZE	5*FB_MAXPGSIZE + SZ_1M
+    #define MMEDIA_BUF_SIZE	64 * SZ_1M
+    #define FB0_SIZE	8 * SZ_1M
+#else
+    #define FB0_SIZE	get_fb_size()
+#endif
+
 #ifdef CONFIG_CW2015_BATTERY
 #include <linux/power/cw2015_battery.h>
 #endif
@@ -241,6 +249,12 @@ static struct platform_device rk29_device_backlight = {
 		.platform_data  = &rk29_bl_info,
 	}
 };
+
+#else
+
+void rk29_backlight_set(bool on){
+}
+EXPORT_SYMBOL(rk29_backlight_set);
 
 #endif
 
@@ -507,6 +521,24 @@ static struct rk_hdmi_platform_data rk_hdmi_pdata = {
 };
 #endif
 
+#ifdef CONFIG_IAM_CHANGES
+//***********************Memory heap for video and mali acl************************
+ static struct resource rk_resource_mmedia[] = {
+         [0] = {
+                 .start  = 0,
+                 .end    = 0,
+                 .flags  = IORESOURCE_MEM,
+         },
+ };
+ 
+ struct platform_device rk_device_mmedia = {
+         .name           = "rk-ump",
+         .id             = -1,
+         .resource       = rk_resource_mmedia,
+         .num_resources  = ARRAY_SIZE(rk_resource_mmedia),
+ };
+//**********************************************************************************
+#endif
 
 #ifdef CONFIG_FB_ROCKCHIP
 
@@ -1469,6 +1501,9 @@ static struct platform_device *devices[] __initdata = {
 #if defined(CONFIG_MT5931_MT6622) || defined(CONFIG_MTK_MT6622)
 	&device_mt6622,
 #endif
+#ifdef CONFIG_IAM_CHANGES
+	&rk_device_mmedia,
+#endif
 };
 
 static int rk_platform_add_display_devices(void)
@@ -2330,14 +2365,9 @@ static void __init machine_rk30_board_init(void)
 static void __init rk30_reserve(void)
 {
 	int size, ion_reserve_size;
-#if defined(CONFIG_ARCH_RK3188)
-	/*if lcd resolution great than or equal to 1920*1200,reserve the ump memory */
-	if(!(get_fb_size() < ALIGN(HD_SCREEN_SIZE,SZ_1M)))
-	{
-		int ump_mem_phy_size=512UL*1024UL*1024UL; 
-		resource_mali[0].start = board_mem_reserve_add("ump buf", ump_mem_phy_size); 
-		resource_mali[0].end = resource_mali[0].start + ump_mem_phy_size -1;
-	}
+#if CONFIG_IAM_CHANGES
+    rk_resource_mmedia[0].start = board_mem_reserve_add("mmedia_buf", MMEDIA_BUF_SIZE);
+    rk_resource_mmedia[0].end = rk_resource_mmedia[0].start + MMEDIA_BUF_SIZE- 1;
 #endif
 #ifdef CONFIG_ION
 	size = ddr_get_cap() >> 20;
@@ -2354,17 +2384,14 @@ static void __init rk30_reserve(void)
 	rk30_ion_pdata.heaps[0].base = board_mem_reserve_add("ion", ion_reserve_size);
 #endif
 #ifdef CONFIG_FB_ROCKCHIP
-	resource_fb[0].start = board_mem_reserve_add("fb0 buf", get_fb_size());
-	resource_fb[0].end = resource_fb[0].start + get_fb_size()- 1;
-#if 0
-	resource_fb[1].start = board_mem_reserve_add("ipp buf", RK30_FB0_MEM_SIZE);
-	resource_fb[1].end = resource_fb[1].start + RK30_FB0_MEM_SIZE - 1;
-#endif
-
+	resource_fb[0].start = board_mem_reserve_add("fb0 buf", FB0_SIZE);
+	resource_fb[0].end = resource_fb[0].start + FB0_SIZE- 1;
+/*
 #if defined(CONFIG_FB_ROTATE) || !defined(CONFIG_THREE_FB_BUFFER)
 	resource_fb[2].start = board_mem_reserve_add("fb2 buf",get_fb_size());
 	resource_fb[2].end = resource_fb[2].start + get_fb_size() - 1;
 #endif
+*/
 #endif
 
 #ifdef CONFIG_VIDEO_RK29

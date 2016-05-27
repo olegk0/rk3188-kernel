@@ -999,7 +999,7 @@ exit:
 	return ret;
 }
 
-static void __exit rtw_drv_halt(void)
+static void /*__exit*/ rtw_drv_halt(void)
 {
 	DBG_871X_LEVEL(_drv_always_, "module exit start\n");
 

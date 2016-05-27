@@ -99,8 +99,9 @@ static void *wifi_status_cb_devid;
 
 struct rksdmmc_gpio_wifi_moudle  rk_platform_wifi_gpio = {
     .power_n = {
-			#if defined(CONFIG_USE_SDMMC0_FOR_WIFI_DEVELOP_BOARD)
-            .io             = RK30SDK_WIFI_GPIO_POWER_N, 
+//IAM			#if defined(CONFIG_USE_SDMMC0_FOR_WIFI_DEVELOP_BOARD)
+			#ifdef RK30SDK_WIFI_GPIO_POWER_N
+            .io             = RK30SDK_WIFI_GPIO_POWER_N,
             .enable         = RK30SDK_WIFI_GPIO_POWER_ENABLE_VALUE,
 			#endif
             #ifdef RK30SDK_WIFI_GPIO_POWER_PIN_NAME
@@ -378,7 +379,7 @@ static int __init rk29sdk_wifi_bt_gpio_control_init(void)
     if (rk_platform_wifi_gpio.power_n.io != INVALID_GPIO) {
         if (gpio_request(rk_platform_wifi_gpio.power_n.io, "wifi_power")) {
                pr_info("%s: request wifi power gpio failed\n", __func__);
-               return -1;
+//IAM               return -1;
         }
     }
 #endif
@@ -388,7 +389,7 @@ static int __init rk29sdk_wifi_bt_gpio_control_init(void)
         if (gpio_request(rk_platform_wifi_gpio.reset_n.io, "wifi reset")) {
                pr_info("%s: request wifi reset gpio failed\n", __func__);
                gpio_free(rk_platform_wifi_gpio.power_n.io);
-               return -1;
+//IAM               return -1;
         }
     }
 #endif    
@@ -504,6 +505,10 @@ int rk29sdk_wifi_power(int on)
                 #if defined(CONFIG_USE_SDMMC0_FOR_WIFI_DEVELOP_BOARD)
                 rk29_sdmmc_gpio_open(0, 1);
                 #else
+ //IAM
+             rk29_sdmmc_gpio_open(1, 0);                
+             mdelay(10);
+
                 rk29_sdmmc_gpio_open(1, 1);
                 #endif
 

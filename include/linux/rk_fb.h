@@ -247,6 +247,9 @@ struct layer_par {
 	u32 uv_addr;
 	u8 fmt_cfg;
 	u8 swap_rb;
+#ifdef CONFIG_IAM_CHANGES
+    bool vsync;
+#endif
 	u32 reserved;
 };
 
@@ -331,7 +334,7 @@ struct rk_lcdc_device_driver{
 	int (*dpi_layer_sel)(struct rk_lcdc_device_driver *dev_drv,int layer_id);
 	int (*dpi_status)(struct rk_lcdc_device_driver *dev_drv);
 	unsigned int (*get_dsp_addr)(struct rk_lcdc_device_driver * dev_drv,unsigned int *dsp_addr);
-	
+	int (*set_layer_state)(struct rk_lcdc_device_driver *dev_drv,int layer_id,bool on);
 };
 
 struct rk_fb_inf {

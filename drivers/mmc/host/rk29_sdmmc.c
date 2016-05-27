@@ -1887,16 +1887,15 @@ static int rk29_sdmmc_start_request(struct mmc_host *mmc )
 	mrq = host->new_mrq;
 	cmd = mrq->cmd;
 	cmd->error = 0;
+	ret = SDM_SUCCESS;
   	if(host->shutdown == 1){
         		spin_unlock_irqrestore(&host->lock, iflags);
         		printk("rk29_sdmmc_start_request....shutdown=1\n");
-        		return;
+        		return ret;
     }
 	
 	cmdr = rk29_sdmmc_prepare_command(cmd);
-	ret = SDM_SUCCESS;
 	
-
 	/*clean FIFO if it is a new request*/
     if(!(cmdr & SDMMC_CMD_STOP))//test emmc
     {

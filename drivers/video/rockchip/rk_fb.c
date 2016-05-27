@@ -42,7 +42,9 @@ void rk29_backlight_set(bool on);
 bool rk29_get_backlight_status(void);
 
 static int hdmi_switch_complete = 0;
+#ifndef CONFIG_IAM_CHANGES
 static int fence_wait_begin = 0;
+#endif
 static int hdmi_xsize = 0;
 static int hdmi_ysize = 0;
 struct list_head saved_list;
@@ -814,6 +816,7 @@ static int rk_fb_ioctl(struct fb_info *info, unsigned int cmd,unsigned long arg)
 	int enable; // enable fb:1 enable;0 disable 
 	int ovl;	//overlay:0 win1 on the top of win0;1,win0 on the top of win1
 	int num_buf; //buffer_number
+#ifndef CONFIG_IAM_CHANGES
 	int ret;//,i;
 	
 	struct rk_reg_data *regs;
@@ -824,7 +827,7 @@ static int rk_fb_ioctl(struct fb_info *info, unsigned int cmd,unsigned long arg)
 
 	struct sync_fence *layer2_fence;
 	struct sync_pt *layer2_pt;
-
+#endif
 //	int fence_fd;
 	void __user *argp = (void __user *)arg;
 
