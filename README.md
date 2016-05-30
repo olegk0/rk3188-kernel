@@ -4,8 +4,8 @@ based on linux-rockchip-radxa-stable-3.0
 
 
 
-for activate WIFI:
-echo 1 > /sys/class/rkwifi/power
+for activate WIFI:</br>
+echo 1 > /sys/class/rkwifi/power</br>
 echo 1 > /sys/class/rkwifi/driver
 
 
