@@ -69,10 +69,11 @@ int rk31sdk_get_sdmmc0_pin_io_voltage(void)
 * Otherwise, you do not define this macro, eliminate it.
 *
 */          
-    #define RK30SDK_WIFI_GPIO_POWER_N               RK30_PIN3_PD0                 
-    #define RK30SDK_WIFI_GPIO_POWER_ENABLE_VALUE    GPIO_HIGH                   
+    #define RK30SDK_WIFI_GPIO_POWER_N               RK30_PIN3_PD0
+    #define RK30SDK_WIFI_GPIO_POWER_ENABLE_VALUE    GPIO_HIGH
 
 //    #define RK30SDK_WIFI_GPIO_RESET_N               RK30_PIN2_PA7
+    #define RK30SDK_WIFI_GPIO_RESET_N               RK30_PIN3_PD1
     #define RK30SDK_WIFI_GPIO_RESET_ENABLE_VALUE    GPIO_HIGH 
 
 //	#define RK30SDK_WIFI_GPIO_WIFI_INT_B                RK30_PIN3_PD2
