@@ -51,8 +51,11 @@
 #include <plat/ddr.h>
 
 #ifdef CONFIG_IAM_CHANGES
-//    #define MMEDIA_BUF_SIZE	5*FB_MAXPGSIZE + SZ_1M
-    #define MMEDIA_BUF_SIZE	64 * SZ_1M
+#ifdef CONFIG_MM_BUF_SIZE
+    #define MMEDIA_BUF_SIZE	CONFIG_MM_BUF_SIZE * SZ_1M
+#else
+    #define MMEDIA_BUF_SIZE	32 * SZ_1M
+#endif
     #define FB0_SIZE	8 * SZ_1M
 #else
     #define FB0_SIZE	get_fb_size()

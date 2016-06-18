@@ -1,6 +1,6 @@
 menuconfig MALI
 	tristate "ARM Mali GPU modules"
-	depends on ARM && m
+	depends on ARM
         select UMP
         select MALI400
 	default n
@@ -9,3 +9,4 @@ menuconfig MALI
 
 source "drivers/gpu/mali/mali/Kconfig"
 source "drivers/gpu/mali/ump/Kconfig"
+source "drivers/gpu/mali/rk_ump/Kconfig"

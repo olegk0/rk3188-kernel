@@ -1,0 +1,13 @@
+menuconfig RK_UMP
+	tristate "RK UMP memory allocator"
+	depends on IAM_CHANGES && UMP
+	default n
+	help
+	  RK UMP memory allocator.
+
+config MM_BUF_SIZE
+	int "Size of multimedia buffer for rk_ump (Mb)"
+	depends on RK_UMP
+	default 64
+	help
+	  Size of multimedia buffer for rk_ump (Mb).

@@ -850,12 +850,13 @@ static int rk_fb_ioctl(struct fb_info *info, unsigned int cmd,unsigned long arg)
 			{
 				if (copy_from_user(yuv_phy, argp, 8))
 					return -EFAULT;
+#ifdef CONFIG_IAM_CHANGES
+				par->smem_start = yuv_phy[0];
+				par->cbr_start = yuv_phy[1];
+				return dev_drv->pan_display(dev_drv,layer_id);
+#else
 				fix->smem_start = yuv_phy[0];  //four y
 				fix->mmio_start = yuv_phy[1];  //four uv
-#ifdef CONFIG_IAM_CHANGES
-				par->smem_start = fix->smem_start;
-				par->cbr_start = fix->mmio_start;
-				return dev_drv->pan_display(dev_drv,layer_id);
 #endif
 			}
 			break;
